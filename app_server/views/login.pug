@@ -1,5 +1,22 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  .container
+    .row.justify-content-center
+      .col-12.col-md-8.col-lg-6
+        br
+        .card.bg-light.shadow
+          article.card-body.mx-auto
+            h4.card-title.mt-3.text-center Log in 
+            p.text-center Welcome back
+            form(onsubmit="window.location.href='/home'; return false;")
+              .form-group.input-group
+                input.form-control(type='email' placeholder='Email address')
+              .form-group.input-group
+                input.form-control(type='password' placeholder='Password')
+              .form-group
+                a.btn.btn-primary.btn-block(href='/home') Log In
+              p.text-center
+                | I do not have an account. 
+                br
+                a(href='/signin') Sign in
