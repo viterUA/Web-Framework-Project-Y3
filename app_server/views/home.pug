@@ -1,47 +1,223 @@
 extends layout
 
 block content
-  h1.header The best teams of the Ukrainian Premier League 2024/2025
-  p
-  .card.mb-3(style='max-width: 1200px;')
-    .row.g-0
-      .col-md-4
-        img.img-fluid.rounded-start(src='/images/dynamokyiv.jpg' alt='Dynamo Kyiv')
-      .col-md-8
-        .card-body
-          h5.card-title 1. FC Dynamo Kyiv
-          p.card-text
-            | This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
-          //p.card-text
-            small.text-body-secondary Last updated 3 mins ago
-  
-  .card.mb-3(style='max-width: 1200px;')
-    .row.g-0
-      .col-md-4
-        img.img-fluid.rounded-start(src='/images/oleksandriya.jpg' alt='Dynamo Kyiv')
-      .col-md-8
-        .card-body
-          h5.card-title 2. FC Oleksandriya
-          p.card-text
-            | This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
-  
-  .card.mb-3(style='max-width: 1200px;')
-    .row.g-0
-      .col-md-4
-        img.img-fluid.rounded-start(src='/images/shakhtar.jpg' alt='Dynamo Kyiv')
-      .col-md-8
-        .card-body
-          h5.card-title 3. FC Shakhtar Donetsk
-          p.card-text
-            | This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
-  
-  .card.mb-3(style='max-width: 1200px;')
-    .row.g-0
-      .col-md-4
-        img.img-fluid.rounded-start(src='/images/polissya.jpg' alt='Dynamo Kyiv')
-      .col-md-8
-        .card-body
-          h5.card-title 4. FC Polissya Zhytomyr
-          p.card-text
-            | This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
+  h1.header=pageHeader.title
+  p=pageHeader.text
 
+  .card.mb-3(style='max-width: 100%;')
+    .row.g-0
+      .col-md-4
+        img.img-fluid.rounded-start(src=dynamo.image alt=dynamo.alt)
+      .col-md-8
+        .card-body
+          h5.card-title= dynamo.name
+          p.card-text
+            | #{dynamo.description}
+
+          h5.card-title Nicknames
+          p.card-text= dynamo.nicknames
+
+          h5.card-title Founded
+          p.card-text= dynamo.founded
+
+          h5.card-title Ground
+          each g in dynamo.ground
+            p.card-text= g
+
+          h5.card-title Capacity
+          each c in dynamo.capacity
+            p.card-text= c
+
+          h5.card-title Owner(s)
+          each o in dynamo.owners
+            p.card-text= o
+
+          h5.card-title President
+          p.card-text= dynamo.president
+
+          h5.card-title Manager
+          p.card-text= dynamo.manager
+
+          h5.card-title League
+          p.card-text= dynamo.league
+
+          h5.card-title= dynamo.season
+          p.card-text= dynamo.position
+
+          h5.card-title Achievements
+          .table-responsive
+            table.table.table-striped.table-bordered
+              thead
+                tr
+                  th Title
+                  th Count
+                  th Years
+              tbody
+                each item in dynamo.achievements
+                  tr
+                    td= item.title
+                    td= item.count
+                    td= item.years
+
+  .card.mb-3(style='max-width: 100%;')
+    .row.g-0
+      .col-md-4
+        img.img-fluid.rounded-start(src=alex.image alt=alex.alt)
+      .col-md-8
+        .card-body
+          h5.card-title= alex.name
+          p.card-text
+            | #{alex.description}
+
+          h5.card-title Nicknames
+          each n in alex.nicknames
+            p.card-text= n
+
+          h5.card-title Founded
+          p.card-text= alex.founded
+
+          h5.card-title Ground
+          p.card-text= alex.ground
+
+          h5.card-title Capacity
+          p.card-text= alex.capacity
+
+          h5.card-title Owner(s)
+          each o in alex.owners
+            p.card-text= o
+
+          h5.card-title President
+          p.card-text= alex.president
+
+          h5.card-title Manager
+          p.card-text= alex.manager
+
+          h5.card-title League
+          p.card-text= alex.league
+
+          h5.card-title= alex.season
+          p.card-text= alex.position
+
+          h5.card-title Achievements
+          .table-responsive
+            table.table.table-striped.table-bordered
+              thead
+                tr
+                  th Title
+                  th Count
+                  th Years
+              tbody
+                each item in alex.achievements
+                  tr
+                    td= item.title
+                    td= item.count
+                    td= item.years
+
+
+  .card.mb-3(style='max-width: 100%;')
+    .row.g-0
+      .col-md-4
+        img.img-fluid.rounded-start(src=shakhtar.image alt=shakhtar.alt)
+      .col-md-8
+        .card-body
+          h5.card-title= shakhtar.name
+          p.card-text
+            | #{shakhtar.description}
+
+          h5.card-title Nicknames
+          each n in shakhtar.nicknames
+            p.card-text= n
+
+          h5.card-title Founded
+          p.card-text= shakhtar.founded
+
+          h5.card-title Ground
+          each g in shakhtar.ground
+            p.card-text= g
+
+          h5.card-title Capacity
+          each c in shakhtar.capacity
+            p.card-text= c
+
+          h5.card-title Owner(s)
+          p.card-text= shakhtar.owners
+
+          h5.card-title President
+          p.card-text= shakhtar.president
+
+          h5.card-title Manager
+          p.card-text= shakhtar.manager
+
+          h5.card-title League
+          p.card-text= shakhtar.league
+
+          h5.card-title= shakhtar.season
+          p.card-text= shakhtar.position
+
+          h5.card-title Achievements
+          .table-responsive
+            table.table.table-striped.table-bordered
+              thead
+                tr
+                  th Title
+                  th Count
+                  th Years
+              tbody
+                each item in shakhtar.achievements
+                  tr
+                    td= item.title
+                    td= item.count
+                    td= item.years
+  
+  .card.mb-3(style='max-width: 100%;')
+      .row.g-0
+        .col-md-4
+          img.img-fluid.rounded-start(src=polissya.image alt=polissya.alt)
+        .col-md-8
+          .card-body
+            h5.card-title= polissya.name
+            p.card-text
+              | #{polissya.description}
+
+            h5.card-title Nicknames
+            each n in polissya.nicknames
+              p.card-text= n
+
+            h5.card-title Founded
+            p.card-text= polissya.founded
+
+            h5.card-title Ground
+            p.card-text= polissya.ground
+
+            h5.card-title Capacity
+            p.card-text= polissya.capacity
+
+            h5.card-title Owner(s)
+            p.card-text= polissya.owners
+
+            h5.card-title President
+            p.card-text= polissya.president
+
+            h5.card-title Manager
+            p.card-text= polissya.manager
+
+            h5.card-title League
+            p.card-text= polissya.league
+
+            h5.card-title= polissya.season
+            p.card-text= polissya.position
+
+            h5.card-title Achievements
+            .table-responsive
+              table.table.table-striped.table-bordered
+                thead
+                  tr
+                    th Title
+                    th Count
+                    th Years
+                tbody
+                  each item in polissya.achievements
+                    tr
+                      td= item.title
+                      td= item.count
+                      td= item.years

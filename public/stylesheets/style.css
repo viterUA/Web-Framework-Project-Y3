@@ -54,7 +54,7 @@ h1 small {
   padding-left: 2%;
 }
 
-.card-title{
+.card-title, .card-text, .table-responsive{
   padding-left: 2%;
 }
 
