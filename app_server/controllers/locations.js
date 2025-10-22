@@ -1,4 +1,4 @@
-/* GET 'home' page */
+/* GET Home page */
 const home = function(req, res){
     res.render('home', { 
         title: 'Home',
@@ -148,11 +148,11 @@ const home = function(req, res){
         }
     });
 };
-/* GET 'Location info' page */
+/* GET 'Login' page */
 const login = function(req, res){
 res.render('login', { title: 'Login' });
 };
-/* GET 'Add review' page */
+/* GET 'Signin' page */
 const signin = function(req, res){
 res.render('signin', { title: 'Register Account' });
 };
