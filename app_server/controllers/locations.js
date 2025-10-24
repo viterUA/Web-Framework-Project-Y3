@@ -4,7 +4,7 @@ const home = function(req, res){
         title: 'Home',
         pageHeader: {
             title: 'The best teams of the Ukrainian Premier League 2024/2025',
-            text: `Here are the top-4 teams in the Ukrainian Premier League that have a chance to qualify for the Champions League, Europa League and Conference League next season.
+            text: `Here are the top 4 teams in the Ukrainian Premier League that have a chance to qualify for the Champions League, Europa League and Conference League next season.
                     This season, something incredible happened: Dynamo Kyiv played 30 games 
                     in the championship without a single defeat, Shakhtar sensationally failed 
                     to take the top two spots in the table, and mid-table clubs FC Oleksandriya, 
