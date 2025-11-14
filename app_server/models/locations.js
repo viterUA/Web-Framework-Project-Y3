@@ -24,5 +24,6 @@ const clubSchema = new mongoose.Schema({
   ]
 });
 
-mongoose.model('Location', clubSchema);
+mongoose.model('Club', clubSchema, 'clubs');
+
 

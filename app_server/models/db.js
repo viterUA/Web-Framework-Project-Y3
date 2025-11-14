@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const dbURL = "mongodb+srv://dbUser:<webframe>@uasoccer.qjqburl.mongodb.net/"
+const dbURL = "mongodb+srv://dbUser:webframe@uasoccer.qjqburl.mongodb.net/UASoccer?retryWrites=true&w=majority";
 
 try {
    
@@ -15,3 +15,4 @@ mongoose.connect(
 }
 
 require('./locations');
+  
