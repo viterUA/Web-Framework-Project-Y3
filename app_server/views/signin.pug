@@ -9,21 +9,25 @@ block content
           article.card-body.mx-auto
             h4.card-title.mt-3.text-center Create Account
             p.text-center Get started with your free account
-            form(onsubmit="window.location.href='/home'; return false;")
+            form(action="/users" method="POST")
               .form-group.input-group
-                input.form-control(type='text' placeholder='Full name')
+                input.form-control(type='text' name='name' placeholder='Full name' required)
+
               .form-group.input-group
-                input.form-control(type='email' placeholder='Email address')
+                input.form-control(type='email' name='email' placeholder='Email address' required)
+
               .form-group.input-group
                 .input-group-prepend
-                  select.custom-select(style='max-width: 120px;')
+                  select.custom-select(name='countryCode' style='max-width: 120px;')
                     option(selected='') +353
-                input.form-control(type='text' placeholder='Phone number')
+                input.form-control(type='text' name='phone' placeholder='Phone number')
+
               .form-group.input-group
-                input.form-control(type='date' placeholder='Date of Birth')
+                input.form-control(type='date' name='dob' placeholder='Date of Birth')
+
               .form-group.input-group
-                select.form-control
-                  option(selected='') Select county
+                select.form-control(name='county')
+                  option(value='') Select county
                   option Antrim
                   option Armagh
                   option Carlow
@@ -56,12 +60,16 @@ block content
                   option Westmeath
                   option Wexford
                   option Wicklow
+
               .form-group.input-group
-                input.form-control(type='password' placeholder='Create password')
+                input.form-control(type='password' name='password' placeholder='Create password' required)
+
               .form-group.input-group
-                input.form-control(type='password' placeholder='Repeat password')
+                input.form-control(type='password' name='password2' placeholder='Repeat password' required)
+
               .form-group
-                a.btn.btn-primary.btn-block(href='/home') Create Account
+                button.btn.btn-primary.btn-block(type='submit') Create Account
+
               p.text-center
                 | Have an account? 
                 a(href='/') Log In
