@@ -9,7 +9,7 @@ block content
           article.card-body.mx-auto
             h4.card-title.mt-3.text-center Create Account
             p.text-center Get started with your free account
-            form(action="/users" method="POST")
+            form(action="/home" method="GET")
               .form-group.input-group
                 input.form-control(type='text' name='name' placeholder='Full name' required)
 
@@ -20,13 +20,13 @@ block content
                 .input-group-prepend
                   select.custom-select(name='countryCode' style='max-width: 120px;')
                     option(selected='') +353
-                input.form-control(type='text' name='phone' placeholder='Phone number')
+                input.form-control(type='text' name='phone' placeholder='Phone number' required)
 
               .form-group.input-group
-                input.form-control(type='date' name='dob' placeholder='Date of Birth')
+                input.form-control(type='date' name='dob' placeholder='Date of Birth' required)
 
               .form-group.input-group
-                select.form-control(name='county')
+                select.form-control(name='county' required)
                   option(value='') Select county
                   option Antrim
                   option Armagh

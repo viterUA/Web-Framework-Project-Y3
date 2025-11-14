@@ -1,8 +1,5 @@
 const mongoose = require('mongoose');
 const Club = mongoose.model('Club');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-
 const User = mongoose.model('User');
 
 module.exports.login = async function (req, res) {
@@ -13,16 +10,13 @@ module.exports.login = async function (req, res) {
 
     try {
         const user = await User.findOne({ email }).lean();
-        if (!user) return res.status(401).json({ message: "Invalid login" });
+        if (!user || user.password !== password) {
+            return res.status(401).json({ message: "Invalid login" });
+        }
 
-        const match = await bcrypt.compare(password, user.password);
-        if (!match) return res.status(401).json({ message: "Invalid login" });
-
-        const token = jwt.sign({ id: user._id }, "SECRET123", { expiresIn: "2h" });
-
-        res.json({ message: "Login successful", token });
-    }
-    catch (err) {
+        // No JWT, just return a success message
+        res.json({ message: "Login successful" });
+    } catch (err) {
         res.status(500).json({ error: err.message });
     }
 };
@@ -36,13 +30,11 @@ module.exports.signin = async function (req, res) {
     if (password !== password2)
         return res.status(400).json({ message: "Passwords do not match" });
 
-
     try {
         const exists = await User.findOne({ email });
         if (exists) return res.status(409).json({ message: "User already exists" });
 
-        const hashed = await bcrypt.hash(password, 10);
-
+        // Store password as plain text
         await User.create({
             name,
             email,
@@ -50,24 +42,21 @@ module.exports.signin = async function (req, res) {
             phone,
             dob,
             county,
-            password: hashed,
-            password2: hashed 
+            password,
+            password2
         });
 
         res.json({ message: "Registration successful" });
-    }
-    catch (err) {
+    } catch (err) {
         res.status(500).json({ error: err.message });
     }
 };
-
 
 module.exports.getClubs = async function (req, res) {
     try {
         const clubs = await Club.find().lean();
         res.json(clubs);
-    }
-    catch (err) {
+    } catch (err) {
         res.status(500).json({ error: err.message });
     }
 };
