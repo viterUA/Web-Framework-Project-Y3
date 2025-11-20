@@ -9,13 +9,13 @@ block content
           article.card-body.mx-auto
             h4.card-title.mt-3.text-center Log in 
             p.text-center Welcome back
-            form(onsubmit="window.location.href='/home'; return false;")
+            form(action="/home" method="POST")
               .form-group.input-group
                 input.form-control(type='email' name="email" placeholder='Email address' required)
               .form-group.input-group
                 input.form-control(type='password' name="password"  placeholder='Password' required)
               .form-group
-                a.btn.btn-primary.btn-block(href='/home') Log In
+                button.btn.btn-primary.btn-block(type='submit') Log In
               p.text-center
                 | I do not have an account. 
                 br

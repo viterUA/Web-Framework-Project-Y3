@@ -9,7 +9,7 @@ block content
           article.card-body.mx-auto
             h4.card-title.mt-3.text-center Create Account
             p.text-center Get started with your free account
-            form(action="/home" method="GET")
+            form(action="/api/signin" method="POST")
               .form-group.input-group
                 input.form-control(type='text' name='name' placeholder='Full name' required)
 

@@ -2,7 +2,6 @@ const request = require('request');
 const mongoose = require('mongoose');
 const Club = mongoose.model('Club');
 
-// API server options
 const apiOptions = { 
     server: 'http://localhost:3000' 
 }; 
@@ -37,6 +36,9 @@ const _renderHomepage = function(req, res, clubs){
 };
 
 const home = function(req, res) {
+    if (!req.session || !req.session.user) {
+        return res.redirect('/');
+    }
     const requestOptions = {
         url: `${apiOptions.server}/api/clubs`,
         method: 'GET',

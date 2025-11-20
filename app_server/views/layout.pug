@@ -15,19 +15,23 @@ html
         button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarNavDropdown' aria-controls='navbarNavDropdown' aria-expanded='false' aria-label='Toggle navigation')
           span.navbar-toggler-icon
         #navbarNavDropdown.collapse.navbar-collapse
-          ul.navbar-nav
+          ul.navbar-nav.me-auto
             li.nav-item
               a.nav-link.active(aria-current='page' href='/home') Home
-            li.nav-item.dropdown
-              a.nav-link.dropdown-toggle(href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false')
-                | Account
-              ul.dropdown-menu
-                li
-                  a.dropdown-item(href='/') Log In
-                li
-                  a.dropdown-item(href='/signin') Sign In
-                li
-                  a.dropdown-item(href='#') Log Out
+          if user
+            ul.navbar-nav
+              li.nav-item.dropdown
+                a.nav-link.dropdown-toggle(href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false')
+                  | #{user.name}
+                ul.dropdown-menu
+                  li
+                    a.dropdown-item(href='/logout') Log Out
+          else
+            ul.navbar-nav
+              li.nav-item
+                a.nav-link(href='/') Log In
+              li.nav-item
+                a.nav-link(href='/signin') Sign In
 
     .container
       block content
