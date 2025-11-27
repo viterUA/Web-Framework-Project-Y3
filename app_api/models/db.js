@@ -15,4 +15,6 @@ mongoose.connect(
 }
 
 require('./locations');
-  
+require('./standings');
+require('./strikers');
+require('./user'); 

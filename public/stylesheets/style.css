@@ -17,6 +17,7 @@ h1, h2, h3, h4, h5, h6 {
   color: white;
   padding: 5px;
   background-color: #0057B7; 
+  border-radius: 5px;
 }
 
 .header{
@@ -132,4 +133,18 @@ legend {
 
 .btn{
   margin: 5% auto;
+}
+
+app-table {
+  display: block;          
+  min-height: 100vh;       
+  background-color: #ffffff;
+  color: #000000;
+  padding: 16px;          
+  box-sizing: border-box;
+  border-radius: 8px;
+}
+
+app-table::before {
+  content: "";
 }
