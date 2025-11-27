@@ -35,14 +35,11 @@ const _renderHomepage = function(req, res, clubs){
     });
 };
 
-const home = function(req, res) {
-    if (!req.session || !req.session.user) {
-        return res.redirect('/');
-    }
+const home = function(req, res){
     const requestOptions = {
         url: `${apiOptions.server}/api/clubs`,
         method: 'GET',
-        json: true
+        json: {}
     };
 
     request(requestOptions, function(err, response, body) {
@@ -56,7 +53,17 @@ const home = function(req, res) {
 };
 
 const login = function(req, res){
-    res.render('login', { title: 'Login' });
+    let error = null;
+    if (req.flash) {
+        const messages = req.flash('error');
+        if (messages && messages.length > 0) {
+            error = messages[0];
+        }
+    }
+    res.render('login', { 
+        title: 'Login',
+        error
+    });
 };
 
 const signin = function(req, res){

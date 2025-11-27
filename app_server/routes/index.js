@@ -1,18 +1,50 @@
 const express = require('express');
 const router = express.Router();
+const passport = require('passport');
 
 const ctrlLocations = require('../controllers/locations');
-const session = require('express-session');
+const usersController = require('./users');
 
-/* Locations pages */
-router.get('/home', ctrlLocations.home);
+function requireLogin(req, res, next) {
+  if (req.isAuthenticated && req.isAuthenticated()) {
+    return next();
+  }
+
+  if (req.session && req.session.user) {
+    return next();
+  }
+
+  return res.redirect('/');
+}
+
+
+router.get('/home', requireLogin, ctrlLocations.home);
+
 router.get('/', ctrlLocations.login);
+router.get('/login', ctrlLocations.login);
+
 router.get('/signin', ctrlLocations.signin);
-router.get('/logout', function(req, res){
-	if (req.session) {
-		req.session.destroy(() => {});
-	}
-	res.redirect('/');
+
+router.post('/signin', usersController.postSignup);
+
+router.post('/login',
+  passport.authenticate('local', {
+    failureRedirect: '/login',
+    failureFlash: true
+  }),
+  (req, res) => {
+    res.redirect('/home');
+  }
+);
+
+router.get('/logout', (req, res, next) => {
+  req.logout((err) => {
+    if (err) return next(err);
+    req.session.save((err) => {
+      if (err) return next(err);
+      res.redirect('/');
+    });
+  });
 });
 
 

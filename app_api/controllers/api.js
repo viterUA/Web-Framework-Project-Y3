@@ -1,44 +1,53 @@
 const mongoose = require('mongoose');
+const passport = require('passport');
 const Club = mongoose.model('Club');
 const User = mongoose.model('User');
 const Standings = mongoose.model('Standings');
 const Strikers = mongoose.model('Strikers');
 
-module.exports.login = async function (req, res) {
+module.exports.login = function (req, res, next) {
     const { email, password } = req.body;
 
     if (!email || !password)
         return res.status(400).json({ message: "Email and password required" });
 
-    try {
-        const user = await User.findOne({ email });
-        if (!user) return res.status(401).json({ message: "Invalid login" });
+    passport.authenticate('local', (err, user, info) => {
+        if (err) {
+            return next(err);
+        }
 
-        if (user.password !== password)
-            return res.status(401).json({ message: "Invalid login" });
+        if (!user) {
+            return res.status(401).json({
+                message: (info && info.message) || "Invalid login"
+            });
+        }
 
-        try {
-            req.session.user = {
-                id: user._id.toString(),
-                name: user.name,
-                email: user.email
-            };
-        } catch (e) {}
+        req.logIn(user, (err) => {
+            if (err) {
+                return next(err);
+            }
 
-        const wantsJson =
-            req.headers.accept &&
-            req.headers.accept.indexOf('application/json') !== -1;
+            try {
+                req.session.user = {
+                    id: user._id.toString(),
+                    name: user.name,
+                    email: user.email
+                };
+            } catch (e) {}
 
-        if (wantsJson || req.xhr)
-            return res.json({ message: "Login successful" });
+            const wantsJson =
+                req.headers.accept &&
+                req.headers.accept.indexOf('application/json') !== -1;
 
-        return res.redirect('/home');
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
+            if (wantsJson || req.xhr)
+                return res.json({ message: "Login successful" });
+
+            return res.redirect('/home');
+        });
+    })(req, res, next);
 };
 
-module.exports.signin = async function (req, res) {
+module.exports.signin = async function (req, res, next) {
     const { name, email, password, password2, countryCode, phone, dob, county } = req.body;
 
     if (!name || !email || !password || !password2)
@@ -64,32 +73,40 @@ module.exports.signin = async function (req, res) {
             if (phoneExists) return res.status(409).json({ message: "Phone number already registered" });
         }
 
-        const created = await User.create({
+        const userData = {
             name,
             email,
             countryCode,
             phone,
             dob,
-            county,
-            password
+            county
+        };
+
+        User.register(new User(userData), password, (err, createdUser) => {
+            if (err) {
+                if (err.name === 'UserExistsError') {
+                    return res.status(409).json({ message: "Email already registered" });
+                }
+                return res.status(500).json({ error: err.message });
+            }
+
+            try {
+                req.session.user = {
+                    id: createdUser._id.toString(),
+                    name: createdUser.name,
+                    email: createdUser.email
+                };
+            } catch (e) {}
+
+            const wantsJson =
+                req.headers.accept &&
+                req.headers.accept.indexOf('application/json') !== -1;
+
+            if (wantsJson || req.xhr)
+                return res.status(201).json({ message: "Registration successful" });
+
+            return res.redirect('/home');
         });
-
-        try {
-            req.session.user = {
-                id: created._id.toString(),
-                name: created.name,
-                email: created.email
-            };
-        } catch (e) {}
-
-        const wantsJson =
-            req.headers.accept &&
-            req.headers.accept.indexOf('application/json') !== -1;
-
-        if (wantsJson || req.xhr)
-            return res.status(201).json({ message: "Registration successful" });
-
-        return res.redirect('/home');
     } catch (err) {
         res.status(500).json({ error: err.message });
     }

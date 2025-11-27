@@ -9,7 +9,9 @@ block content
           article.card-body.mx-auto
             h4.card-title.mt-3.text-center Log in 
             p.text-center Welcome back
-            form(action="/api/login" method="POST")
+            if error
+              .alert.alert-danger #{error}
+            form(action="/login" method="POST")
               .form-group.input-group
                 input.form-control(type='email' name="email" placeholder='Email address' required)
               .form-group.input-group
