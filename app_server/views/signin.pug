@@ -1,3 +1,9 @@
+//- Client-side form validation pattern adapted from Bootstrap 5 docs:
+//- https://getbootstrap.com/docs/5.3/forms/validation/
+//- Uses the HTML5 Constraint Validation API (checkValidity, setCustomValidity)
+//- as described in MDN documentation:
+//- https://developer.mozilla.org/en-US/docs/Web/HTML/Constraint_validation
+
 extends layout
 
 block content
@@ -11,24 +17,73 @@ block content
             p.text-center Get started with your free account
             if error
               .alert.alert-danger #{error}
-            form(action="/signin" method="POST")
-              .form-group.input-group
-                input.form-control(type='text' name='name' placeholder='Full name' required)
+            form.needs-validation(action="/signin" method="POST" novalidate)
+              .mb-3
+                label.form-label(for='name') Full name
+                input#name.form-control(
+                  type='text'
+                  name='name'
+                  placeholder='Full name'
+                  required
+                  minlength='2'
+                  maxlength='25'
+                )
+                .invalid-feedback
+                  | Please enter your full name (max 25 characters).
 
-              .form-group.input-group
-                input.form-control(type='email' name='email' placeholder='Email address' required)
+              .mb-3
+                label.form-label(for='email') Email address
+                input#email.form-control(
+                  type='email'
+                  name='email'
+                  placeholder='Email address'
+                  required
+                  maxlength='60'
+                  pattern='[^\\s@]+@[^\\s@]+\\.[^\\s@]+'
+                )
+                .invalid-feedback
+                  | Please enter a valid email address (must contain "@" and ".").
 
-              .form-group.input-group
-                input.form-control(type='text' name='countryCode' placeholder='Country Code (e.g. +353)')
+              .mb-3
+                label.form-label(for='countryCode') Country Code
+                input#countryCode.form-control(
+                  type='text'
+                  name='countryCode'
+                  placeholder='Country Code (e.g. +353)'
+                  maxlength='4'
+                  pattern='^\\+[0-9]{3}$'
+                )
+                .invalid-feedback
+                  | Country code must start with "+" followed by 3 digits, e.g. +353.
 
-              .form-group.input-group
-                input.form-control(type='text' name='phone' placeholder='Phone number')
+              .mb-3
+                label.form-label(for='phone') Phone number
+                input#phone.form-control(
+                  type='tel'
+                  name='phone'
+                  placeholder='Phone number (9 digits)'
+                  required
+                  maxlength='9'
+                  pattern='^[0-9]{9}$'
+                )
+                .invalid-feedback
+                  | Phone number must be exactly 9 digits.
 
-              .form-group.input-group
-                input.form-control(type='date' name='dob' required)
+              .mb-3
+                label.form-label(for='dob') Date of birth
+                input#dob.form-control(
+                  type='date'
+                  name='dob'
+                  required
+                  min='1945-01-01'
+                  max='2007-12-31'
+                )
+                .invalid-feedback
+                  | You must be at least 18 years old.
 
-              .form-group.input-group
-                select.form-control(name='county' required)
+              .mb-3
+                label.form-label(for='county') County
+                select#county.form-control(name='county' required)
                   option(value='' disabled selected) Select your county
                   option Carlow
                   option Cavan
@@ -56,16 +111,75 @@ block content
                   option Westmeath
                   option Wexford
                   option Wicklow
+                .invalid-feedback
+                  | Please select your county.
 
-              .form-group.input-group
-                input.form-control(type='password' name='password' placeholder='Create password' required)
+              .mb-3
+                label.form-label(for='password') Password
+                input#password.form-control(
+                  type='password'
+                  name='password'
+                  placeholder='Create password'
+                  required
+                  minlength='6'
+                )
+                .invalid-feedback
+                  | Please enter a password (at least 6 characters).
 
-              .form-group.input-group
-                input.form-control(type='password' name='password2' placeholder='Repeat password' required)
+              .mb-3
+                label.form-label(for='password2') Confirm password
+                input#password2.form-control(
+                  type='password'
+                  name='password2'
+                  placeholder='Repeat password'
+                  required
+                  minlength='6'
+                )
+                .invalid-feedback
+                  | Please repeat the same password.
 
               .form-group
                 button.btn.btn-primary.btn-block(type='submit') Create Account
 
-              p.text-center
+              p.text-center.mt-3
                 | Have an account? 
                 a(href='/login') Log In
+
+block scripts
+  script.
+    (function () {
+      var forms = document.querySelectorAll('.needs-validation');
+      Array.prototype.slice.call(forms).forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+          var password = form.querySelector('#password');
+          var password2 = form.querySelector('#password2');
+          var dobInput = form.querySelector('#dob');
+
+          if (password2) password2.setCustomValidity('');
+          if (dobInput) dobInput.setCustomValidity('');
+
+          if (password && password2 && password.value !== password2.value) {
+            password2.setCustomValidity('Passwords do not match');
+          }
+
+          if (dobInput && dobInput.value) {
+            var dob = new Date(dobInput.value);
+            var minDob = new Date('1945-01-01');
+            var maxDob = new Date('2007-12-31');
+
+            if (dob < minDob || dob > maxDob) {
+              dobInput.setCustomValidity(
+                'You must be at least 18 years old.'
+              );
+            }
+          }
+
+          if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+
+          form.classList.add('was-validated');
+        }, false);
+      });
+    })();

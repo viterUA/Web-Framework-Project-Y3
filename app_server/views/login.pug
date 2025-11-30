@@ -11,14 +11,46 @@ block content
             p.text-center Welcome back
             if error
               .alert.alert-danger #{error}
-            form(action="/login" method="POST")
-              .form-group.input-group
-                input.form-control(type='email' name="email" placeholder='Email address' required)
-              .form-group.input-group
-                input.form-control(type='password' name="password"  placeholder='Password' required)
+            form.needs-validation(action="/login" method="POST" novalidate)
+              .mb-3
+                label.form-label(for='email') Email address
+                input#email.form-control(
+                  type='email'
+                  name='email'
+                  placeholder='Email address'
+                  required
+                )
+                .invalid-feedback
+                  | Please enter a valid email address.
+              .mb-3
+                label.form-label(for='password') Password
+                input#password.form-control(
+                  type='password'
+                  name='password'
+                  placeholder='Password'
+                  required
+                  minlength='6'
+                )
+                .invalid-feedback
+                  | Please enter your password (at least 6 characters).
               .form-group
                 button.btn.btn-primary.btn-block(type='submit') Log In
-              p.text-center
+              p.text-center.mt-3
                 | I do not have an account. 
                 br
                 a(href='/signin') Sign in
+
+block scripts
+  script.
+    (function () {
+      var forms = document.querySelectorAll('.needs-validation');
+      Array.prototype.slice.call(forms).forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+    })();

@@ -136,15 +136,62 @@ legend {
 }
 
 app-table {
-  display: block;          
-  min-height: 100vh;       
+  display: block;
+  color: black;
   background-color: #ffffff;
-  color: #000000;
-  padding: 16px;          
-  box-sizing: border-box;
+  padding: 1rem;
   border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  overflow-x: auto;            
 }
 
-app-table::before {
-  content: "";
+app-table table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;            
+  font-size: 0.9rem;
+}
+
+app-table th,
+app-table td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid #e5e5e5;
+  text-align: center;
+  white-space: nowrap;         
+}
+
+app-table th {
+  font-weight: 600;
+  background-color: #f5f5f5;
+}
+
+app-table table + table {
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  app-table {
+    padding: 0.75rem;
+  }
+
+  app-table table {
+    min-width: 480px;         
+    font-size: 0.8rem;
+  }
+
+  app-table th,
+  app-table td {
+    padding: 0.35rem 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  app-table {
+    padding: 0.5rem;
+  }
+
+  app-table table {
+    min-width: 420px;
+    font-size: 0.75rem;
+  }
 }
