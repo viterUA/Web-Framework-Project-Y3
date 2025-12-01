@@ -43,18 +43,18 @@ block content
                 )
                 .invalid-feedback
                   | Please enter a valid email address (must contain "@" and ".").
-
+                  
               .mb-3
-                label.form-label(for='countryCode') Country Code
-                input#countryCode.form-control(
-                  type='text'
-                  name='countryCode'
-                  placeholder='Country Code (e.g. +353)'
-                  maxlength='4'
-                  pattern='^\\+[0-9]{3}$'
-                )
-                .invalid-feedback
-                  | Country code must start with "+" followed by 3 digits, e.g. +353.
+                 label.form-label(for='countryCode') Country Code
+                 select#countryCode.form-control(name='countryCode' required)
+                  option(value='' disabled selected) Select your country code
+                  option +353
+                  option +44
+                  option +1
+                  option +61
+                 .invalid-feedback
+                  | Please select your country code.
+                
 
               .mb-3
                 label.form-label(for='phone') Phone number
